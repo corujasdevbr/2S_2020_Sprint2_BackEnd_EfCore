@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200908192228_DeleteTablePedidosItens.cs" />
+    <Compile Remove="Migrations\20200908192228_DeleteTablePedidosItens.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
