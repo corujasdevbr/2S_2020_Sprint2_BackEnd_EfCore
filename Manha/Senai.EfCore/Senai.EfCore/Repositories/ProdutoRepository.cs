@@ -140,6 +140,7 @@ namespace Senai.EfCore.Repositories
 
                 //Caso exista remove o produto
                 _ctx.Produtos.Remove(produto);
+                _ctx.SaveChanges();
             }
             catch (Exception ex)
             {
