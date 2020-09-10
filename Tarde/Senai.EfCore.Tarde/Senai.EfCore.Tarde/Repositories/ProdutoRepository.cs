@@ -41,12 +41,11 @@ namespace Senai.EfCore.Tarde.Repositories
         {
             try
             {
-                //return _ctx.Produtos.FirstOrDefault(c => c.Id == id);
+                //return _ctx.Produtos.FirstOrDefault(c => c.Id == id); top 1
                 return _ctx.Produtos.Find(id);
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -134,11 +133,6 @@ namespace Senai.EfCore.Tarde.Repositories
                 //Buscar produto pelo id
                 Produto produtoTemp = BuscarPorId(id);
 
-                //Verifica se produto existe
-                //Caso não existe gera uma exception
-                if (produtoTemp == null)
-                    throw new Exception("Produto não encontrado");
-
                 //Remove o produto do dbSet
                 _ctx.Produtos.Remove(produtoTemp);
                 //Salva as alteráções do contexto
@@ -146,6 +140,7 @@ namespace Senai.EfCore.Tarde.Repositories
             }
             catch (Exception ex)
             {
+                //TODO : Incluir erro na tabela de Log
                 throw new Exception(ex.Message);
             }
         }
