@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,7 @@ namespace Senai.EfCore.Controllers
     [ApiController]
     public class ProdutosController : ControllerBase
     {
-        private IProdutoRepository _produtoRepository;
+        private readonly IProdutoRepository _produtoRepository;
 
         public ProdutosController()
         {
@@ -22,34 +23,110 @@ namespace Senai.EfCore.Controllers
         }
 
         [HttpGet]
-        public List<Produto> Get()
+        public IActionResult Get()
         {
-            return _produtoRepository.Listar();
+            try
+            {
+                //Lista os produtos no repositório
+                var produtos = _produtoRepository.Listar();
+
+                //Verifica se existe produtos, caso não exista retorna
+                //NoContent - Sem Contúdo
+                if (produtos.Count == 0)
+                    return NoContent();
+
+                //Caso exista retorna Ok e os produtos
+                return Ok(produtos);
+            }
+            catch (Exception ex)
+            {
+                //Caso ocorra algum erro retorna BadRequest e a mensagem de erro
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
-        public Produto Get(Guid id)
+        public IActionResult Get(Guid id)
         {
-            return _produtoRepository.BuscarPorId(id);
+            try
+            {
+                //Busco o produto no repositorio
+                Produto produto = _produtoRepository.BuscarPorId(id);
+
+                //Verifica se o produto existe
+                //Caso produto não exista retorna NotFound
+                if (produto == null)
+                    return NotFound();
+
+                //Caso produto exista retorna 
+                //Ok e os dados do produto
+                return Ok(produto);
+            }
+            catch (Exception ex)
+            {
+                //Caso ocorra um erro retorna BadRequest com a mensagem
+                //de erro
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
-        public void Post(Produto produto)
+        public IActionResult Post(Produto produto)
         {
-            _produtoRepository.Adicionar(produto);
+            try
+            {
+                //Adiciona um produto
+                _produtoRepository.Adicionar(produto);
+
+                //retorna ok com os dados do produto
+                return Ok(produto);
+            }
+            catch (Exception ex)
+            {
+                //Caso ocorra um erro retorna BadRequest com a mensagem
+                //de erro
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
-        public void Put(Guid id, Produto produto)
+        public IActionResult Put(Guid id, Produto produto)
         {
-            produto.Id = id;
-            _produtoRepository.Editar(produto);
+            try
+            {
+                var produtoTemp = _produtoRepository.BuscarPorId(id);
+
+                if (produtoTemp == null)
+                    return NotFound();
+
+                produto.Id = id;
+                _produtoRepository.Editar(produto);
+
+                return Ok(produto);
+            }
+            catch (Exception ex)
+            {
+                //Caso ocorra um erro retorna BadRequest com a mensagem
+                //de erro
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        public IActionResult Delete(Guid id)
         {
-            _produtoRepository.Remover(id);
+            try
+            {
+                _produtoRepository.Remover(id);
+
+                return Ok(id);
+            }
+            catch (Exception ex)
+            {
+                //Caso ocorra um erro retorna BadRequest com a mensagem
+                //de erro
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

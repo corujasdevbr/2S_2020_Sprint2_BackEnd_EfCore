@@ -3,6 +3,7 @@ using Senai.EfCore.Domains;
 using Senai.EfCore.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 
 namespace Senai.EfCore.Repositories
@@ -47,9 +48,9 @@ namespace Senai.EfCore.Repositories
             try
             {
                 //List<Produto> produto = _ctx.Produtos.Where(c => c.Nome == "produto").ToList();
-                //Produto produto = _ctx.Produtos.FirstOrDefault(c => c.Id == id);
-                Produto produto = _ctx.Produtos.Find(id);
-                return produto;
+                //Produto produto = _ctx.Produtos.FirstOrDefault(c => c.Id == id); top 1
+                return _ctx.Produtos.Find(id);
+                
             }
             catch (Exception ex)
             {
@@ -86,9 +87,9 @@ namespace Senai.EfCore.Repositories
                 //Busco um produto pelo seu Id
                 Produto produtoTemp = BuscarPorId(produto.Id);
 
-                //Verifica se o produto existe, caso não exista gera uma exception
-                if (produtoTemp == null)
-                    throw new Exception("Produto não encontrado");
+                ////Verifica se o produto existe, caso não exista gera uma exception
+                //if (produtoTemp == null)
+                //    throw new Exception("Produto não encontrado");
 
                 //Altera as propriedades do produto
                 produtoTemp.Nome = produto.Nome;
@@ -101,7 +102,7 @@ namespace Senai.EfCore.Repositories
             }
             catch (Exception ex)
             {
-
+                //TODO: Cadastrar Tabela LogErro  mensagem de erro com Tag Geral
                 throw new Exception(ex.Message);
             }
         }
@@ -144,6 +145,7 @@ namespace Senai.EfCore.Repositories
             }
             catch (Exception ex)
             {
+                //TODO : Incluir erro no log do banco de dados
                 throw new Exception(ex.Message);
             }
         }
