@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Senai.EfCore.Tarde.Domains;
 using Senai.EfCore.Tarde.Interfaces;
@@ -35,11 +31,18 @@ namespace Senai.EfCore.Tarde.Controllers
                     return NoContent();
 
                 //Caso exista retorno Ok e os produtos cadastrados
-                return Ok(produtos);
+                return Ok(new { 
+                    totalCount = produtos.Count,
+                    data = produtos
+                });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                //TODO : Cadastrar mensagem de erro no dominio logErro
+                return BadRequest(new { 
+                    statusCode = 400,
+                    error = "Ocorreu um erro no endpoint Get/produtos, envie um e-mail para email@email.com informando"
+                });
             }
         }
 
@@ -91,8 +94,6 @@ namespace Senai.EfCore.Tarde.Controllers
         {
             try
             {
-                //Define o id do produto
-                produto.Id = id;
                 //Edita o produto
                 _produtoRepository.Editar(produto);
 
