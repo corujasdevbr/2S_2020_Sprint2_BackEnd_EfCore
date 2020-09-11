@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace Senai.EfCore.Domains
 {
@@ -10,5 +9,8 @@ namespace Senai.EfCore.Domains
     {
         public string Nome { get; set; }
         public float Preco { get; set; }
+
+        //Propriedade referente ao relacionamento na classe PedidoItem com a classe Pedido
+        public List<PedidoItem> PedidosItens { get; set; }
     }
 }

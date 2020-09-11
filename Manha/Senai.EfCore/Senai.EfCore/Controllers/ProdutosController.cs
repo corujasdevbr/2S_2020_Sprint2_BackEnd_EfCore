@@ -36,12 +36,19 @@ namespace Senai.EfCore.Controllers
                     return NoContent();
 
                 //Caso exista retorna Ok e os produtos
-                return Ok(produtos);
+                return Ok(new { 
+                    totalCount = produtos.Count,
+                    data = produtos
+                });
             }
             catch (Exception ex)
             {
                 //Caso ocorra algum erro retorna BadRequest e a mensagem de erro
-                return BadRequest(ex.Message);
+                //TODO: Gravar mensagem de erro log e retornar BadRequest
+                return BadRequest(new {
+                    statusCode = 400,
+                    error = "Envie um email para email@email.com informando que ocorreu um erro no endpoint Get/produtos"
+                });
             }
         }
 

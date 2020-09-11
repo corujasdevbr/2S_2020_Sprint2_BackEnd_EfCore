@@ -6,7 +6,6 @@ namespace Senai.EfCore.Domains
 {
     public class PedidoItem : BaseDomain
     {
-        
         public Guid IdPedido { get; set; }
         [ForeignKey("IdPedido")]
         public Pedido Pedido { get; set; }
