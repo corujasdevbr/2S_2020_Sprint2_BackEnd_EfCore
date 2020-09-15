@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Senai.EfCore
+namespace Senai.EfCore.DbFirst.Tarde
 {
     public class Startup
     {
@@ -24,13 +24,8 @@ namespace Senai.EfCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(options =>
-            {
-                //Correção do erro object cycle
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                //Remover propriedades nulas
-                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-            });
+            services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,8 +39,6 @@ namespace Senai.EfCore
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
