@@ -23,6 +23,8 @@ namespace Senai.EfCore.Tarde.Controllers
         {
             try
             {
+               
+
                 //Adiciona um pedido
                 Pedido pedido = _pedidoRepository.Adicionar(pedidosItens);
                 return Ok(pedido);

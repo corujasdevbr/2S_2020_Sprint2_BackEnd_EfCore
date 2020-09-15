@@ -44,6 +44,8 @@ namespace Senai.EfCore.Tarde
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

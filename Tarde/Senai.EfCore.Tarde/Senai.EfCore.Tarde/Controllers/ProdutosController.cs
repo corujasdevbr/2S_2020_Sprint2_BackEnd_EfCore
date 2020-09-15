@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Senai.EfCore.Tarde.Domains;
 using Senai.EfCore.Tarde.Interfaces;
 using Senai.EfCore.Tarde.Repositories;
+using Senai.EfCore.Tarde.Utils;
 
 namespace Senai.EfCore.Tarde.Controllers
 {
@@ -72,10 +74,17 @@ namespace Senai.EfCore.Tarde.Controllers
 
         // POST api/produtos
         [HttpPost]
-        public IActionResult Post(Produto produto)
+        public IActionResult Post([FromForm]Produto produto)
         {
             try
             {
+                if(produto.Imagem != null)
+                {
+                    var urlImagem = Upload.Local(produto.Imagem);
+
+                    produto.UrlImagem = urlImagem;
+                }
+
                 //Adiciona um novo produto
                 _produtoRepository.Adicionar(produto);
 
