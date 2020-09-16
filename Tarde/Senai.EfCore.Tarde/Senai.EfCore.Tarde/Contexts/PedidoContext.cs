@@ -12,7 +12,7 @@ namespace Senai.EfCore.Tarde.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(@"Data Source=.\SqlExpress; Initial Catalog=Db_Senai_Pedidos_Tarde_Dev; user id=sa; password=sa@132");
+                optionsBuilder.UseSqlServer(@"Data Source=.\SqlExpress; Initial Catalog=Db_Senai_Pedidos_Tarde_Dev; user id=sa; password=sa132");
 
             base.OnConfiguring(optionsBuilder);
         }
